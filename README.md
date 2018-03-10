@@ -1,4 +1,4 @@
-This is a simple server for running Baroque Chess agents.
+This is a simple server for running Baroque Chess agents. Created for CSE415 @ UW.
 
 To run: `python3 server.py`
 
