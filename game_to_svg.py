@@ -28,8 +28,6 @@ def game_to_svg(game_state):
         for j in range(8):
             pos = board[i][j]
             if pos > 1:
-                if pos == 2:
-                    print('pawn')
                 filename = PIECE_MAP[pos]
                 svg_file = sg.fromfile('baroque_chess_images/'+filename)
                 piece_svg = svg_file.getroot()

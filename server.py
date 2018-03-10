@@ -52,6 +52,8 @@ def init():
     p1 = request.form['player1']
     p2 = request.form['player2']
     init_game(p1, p2)
+    global is_all_games
+    is_all_games = False
     return redirect('/first_turn')
 
 @app.route('/first_turn')
@@ -78,7 +80,8 @@ def first_turn():
                 board=Markup(str(game_svg.to_str())),
                 move_report=move_report,
                 remark=remark,
-                results=list(sorted(victories.items(), key=lambda x: x[1], reverse=True)))
+                results=list(sorted(victories.items(), key=lambda x: x[1], reverse=True)),
+                play_next_game=int(is_all_games))
     print(len(results))
     print('results:', results)
     return 'abc'
@@ -104,6 +107,8 @@ def play_next_game():
             game_is_initialized = True
         except:
             print('ERROR: game failed to initialize.')
+    global is_all_games
+    is_all_games = True
     return redirect('/first_turn')
 
 

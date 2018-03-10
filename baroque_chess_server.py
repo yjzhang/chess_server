@@ -142,7 +142,7 @@ def runGame():
                 if answer.lower()=='y': WINNER='DRAW'
                 else: WINNER=other_side
                 FINISHED = True; break
-                
+
         # Some move was returned, so let's find out if it was valid.
         try:
           move, newState = moveAndState
@@ -156,10 +156,10 @@ def runGame():
            FINISHED = True;
         print(side+"'s move: the "+BC.CODE_TO_INIT[currentState.board[i][j]]+\
               " at ("+str(i)+", "+str(j)+") to ("+str(ii)+", "+str(jj)+").")
-        
+
         if VALIDATE_MOVES:
             (status, result)=V.validate(move, currentState, newState)
-            
+
             if not status:
                 print("Illegal move by "+side)  # Returned state is:\n" + str(currentState))
                 print(result)
@@ -232,8 +232,6 @@ def timeout(func, args=(), kwargs={}, timeout_duration=1, default=None):
         print("Took too long.")
         print("We are now terminating the game.")
         print("Player "+CURRENT_PLAYER+" loses.")
-        if USE_HTML: gameToHTML.reportResult("Player "+CURRENT_PLAYER+" took too long (%04f seconds) and thus loses." % diff)
-        if USE_HTML: gameToHTML.endHTML()
         exit()
     else:
         #print("Within the time limit -- nice!")

@@ -8,6 +8,7 @@ crossorigin="anonymous"></script>
 
 <script>
 // TODO: call ajax to game_update
+var playNextGame = {{ play_next_game }};
 
 var updateGame = function() {
     $.ajax({url: "/game_update",
@@ -30,20 +31,21 @@ var updateGame = function() {
             $("#move_report").html("Game Over. Starting next game in 5 seconds.");
             $("#remark").html("Winner: " + json_data.winner);
             // wait five seconds and redirect
-            window.setTimeout(function(){
-                // Move to a new location or you can do something else
-                window.location.href = "/play_next_game";
-            }, 5000);
+            if (playNextGame) {
+                window.setTimeout(function(){
+                    window.location.href = "/play_next_game";
+                }, 5000);
+            }
         }
         if (json_data.hasOwnProperty("result")) {
             $("#move_report").html("Error:");
             $("#remark").html(json_data.result);
             // wait five seconds and redirect
-            window.setTimeout(function(){
-                // Move to a new location or you can do something else
-                window.location.href = "/play_next_game";
-            }, 5000);
-
+            if (playNextGame) {
+                window.setTimeout(function(){
+                    window.location.href = "/play_next_game";
+                }, 5000);
+            }
         }
     });
 };
