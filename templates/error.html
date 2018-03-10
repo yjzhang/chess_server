@@ -1,0 +1,18 @@
+<head>
+    <title>Error</title>
+    <script>
+    window.onload = function() {
+        window.setTimeout(function(){
+            window.location.href = "/play_next_game";
+        }, 5000);
+    };
+
+
+    </script>
+</head>
+
+<body>
+    <div id="message">{{ message }}</div>
+
+    <a href="/play_next_game">Play next game</a> 
+</body>

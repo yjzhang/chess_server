@@ -1,0 +1,89 @@
+<head>
+<title>Baroque Chess: {{ player1 }} vs {{ player2 }}</title>
+
+<script
+src="https://code.jquery.com/jquery-3.3.1.min.js"
+integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+crossorigin="anonymous"></script>
+
+<script>
+// TODO: call ajax to game_update
+
+var updateGame = function() {
+    $.ajax({url: "/game_update",
+            type: "POST",
+            data: {}
+    })
+    .done(function(data) {
+        var json_data = JSON.parse(data);
+        if (json_data.hasOwnProperty("board")) {
+            console.log(json_data.move_report);
+            console.log(json_data.remark);
+            // update the board
+            $("#board_svg").html(json_data.board);
+            $("#move_report").html(json_data.move_report);
+            $("#remark").html(json_data.remark);
+            updateGame();
+        }
+        if (json_data.hasOwnProperty("winner")) {
+            // if there is a winner...
+            $("#move_report").html("Game Over. Starting next game in 5 seconds.");
+            $("#remark").html("Winner: " + json_data.winner);
+            // wait five seconds and redirect
+            window.setTimeout(function(){
+                // Move to a new location or you can do something else
+                window.location.href = "/play_next_game";
+            }, 5000);
+        }
+        if (json_data.hasOwnProperty("result")) {
+            $("#move_report").html("Error:");
+            $("#remark").html(json_data.result);
+            // wait five seconds and redirect
+            window.setTimeout(function(){
+                // Move to a new location or you can do something else
+                window.location.href = "/play_next_game";
+            }, 5000);
+
+        }
+    });
+};
+
+window.onload = function() {
+    updateGame();
+};
+
+
+</script>
+</head>
+
+<body>
+    <h1>Current Game: {{ player1 }} vs {{ player2 }}</h1>
+<!--TODO 
+
+1. have a list of available players
+
+2. have a board that constantly polls for updates (using ajax)
+
+3. have a results board of all the past/current games
+
+-->
+<div id="move_report" style="font-size:16pt;">{{ move_report }}</div>
+<div id="remark" style="font-size:16pt;">{{ remark }}</div>
+<div id="board" style="display:inline-block;">
+    <div id="board_svg">
+    {{ board }}
+    </div>
+</div>
+
+<div id="results" style="float:right; display:inline-block; margin-right: 50;">
+    <h3>Results</h3>
+    <ol id="winners">
+        {% for winner in results %}
+        <li>{{ winner[0] }}: {{ winner[1] }} victories</li>
+        {% endfor %}
+    </ol>
+</div>
+
+<a href="/play_next_game">Play next game</a>
+
+</body>

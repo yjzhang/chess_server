@@ -1,0 +1,48 @@
+<head>
+    <title>Baroque Chess</title>
+</head>
+
+<body>
+<!--TODO 
+
+1. have a list of available players
+
+2. 
+
+-->
+
+<form action="/init" method="post" enctype=multipart/form-data>
+    <div class="form-group" id="player-inputs">
+        <!--TODO: have a dropdown? -->
+        <label for="player1">Player 1 name</label>
+        <select id="player1" name="player1">
+            {% for player in player_list %}
+            <option>{{ player }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="player2">Player 2 name</label>
+        <select id="player2" name="player2">
+            {% for player in player_list %}
+            <option>{{ player }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-default">Start game</button>
+    </div>
+</form>
+
+<a href="/play_next_game">Play all games</a>
+
+<h3>Results so far</h3> 
+<ol id="winners">
+{% for winner in results %}
+<li>{{ winner[0] }}: {{ winner[1] }} victories</li>
+{% endfor %}
+</ol>
+
+
+</body>
